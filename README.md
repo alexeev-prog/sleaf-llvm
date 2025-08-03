@@ -8,10 +8,11 @@
 
   <div align="center">
     <a href="https://marketplace.visualstudio.com/items?itemName=alexeevdev.sleaf-llvmuage-syntax">
-      <img src="https://img.shields.io/badge/VSCode-extension?style=for-the-badge&logo=gitbook" alt="vscode">
+      	<img src="https://img.shields.io/badge/VSCode-extension?style=for-the-badge" alt="vscode">
     </a>
-    <br>
-    <a href="https://alexeev-prog.github.io/sleaf-llvm/">Documentation</a>
+    <a href="https://alexeev-prog.github.io/sleaf-llvm/">
+		<img src="https://img.shields.io/badge/Documentation-online?style=for-the-badge&logo=gitbook" alt="docs">
+    </a>
   </div>
 </div>
 
