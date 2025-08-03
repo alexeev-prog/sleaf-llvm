@@ -116,12 +116,13 @@ jobs:
 
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-24.04'
-      run: >-
+      run: |
+        while sudo fuser /var/lib/dpkg/lock-frontend; do
+          echo "Waiting for other apt processes to finish..."
+          sleep 1
+        done
         sudo apt-get install clang-tidy-18 cppcheck -y -q
-
-        sudo update-alternatives --install
-        /usr/bin/clang-tidy clang-tidy
-        /usr/bin/clang-tidy-18 180
+        sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-18 180
 
     - name: Setup MultiToolTask
       if: matrix.os == 'windows-2022'
