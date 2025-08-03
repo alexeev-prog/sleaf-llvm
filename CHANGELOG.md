@@ -1,3 +1,9 @@
+commit 8f50b181fc220a9c42843a3573c15d3dbe1dd715
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 06:37:10 2025 +0700
+
+    update and improve scripts
+
 commit 3deffd2602e6c1cdc1debd5ece0a161096339a85
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 06:34:31 2025 +0700

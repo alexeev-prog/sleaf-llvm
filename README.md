@@ -6,16 +6,12 @@
 
   <h3>Basic programming language based on S-expressions made with C++ &amp; LLVM</h3>
 
-  <div>
+  <div align="center">
     <a href="https://marketplace.visualstudio.com/items?itemName=alexeevdev.sleaf-llvmuage-syntax">
-      <img src="https://img.shields.io/badge/VSCode-extension?style=for-the-badge&logo=gitbook" alt="Docs">
+      <img src="https://img.shields.io/badge/VSCode-extension?style=for-the-badge&logo=gitbook" alt="vscode">
     </a>
-    <a href="https://github.com/alexeev-prog/sleaf-llvm/blob/main/LICENSE">
-      <img src="https://img.shields.io/badge/License-GPL_v3-blue?style=for-the-badge&logo=gnu" alt="License">
-    </a>
-    <a href="https://github.com/alexeev-prog/sleaf-llvm/stargazers">
-      <img src="https://img.shields.io/github/stars/alexeev-prog/sleaf-llvm?style=for-the-badge&logo=github" alt="Stars">
-    </a>
+    <br>
+    <a href="https://alexeev-prog.github.io/sleaf-llvm/">Documentation</a>
   </div>
 </div>
 
@@ -26,6 +22,9 @@
   <img src="https://img.shields.io/github/languages/count/alexeev-prog/sleaf-llvm?style=for-the-badge" alt="Language Count">
   <img src="https://img.shields.io/github/license/alexeev-prog/sleaf-llvm?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/github/issues/alexeev-prog/sleaf-llvm?style=for-the-badge&color=critical" alt="Issues">
+  <a href="https://github.com/alexeev-prog/sleaf-llvm/stargazers">
+        <img src="https://img.shields.io/github/stars/alexeev-prog/sleaf-llvm?style=for-the-badge&logo=github" alt="Stars">
+  </a>
   <img src="https://img.shields.io/github/last-commit/alexeev-prog/sleaf-llvm?style=for-the-badge" alt="Last Commit">
   <img src="https://img.shields.io/github/contributors/alexeev-prog/sleaf-llvm?style=for-the-badge" alt="Contributors">
 </div>
