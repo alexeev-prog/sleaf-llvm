@@ -1,0 +1,9 @@
+CompileFlags:
+  Add:
+    # - "-I=[folder]"         # old answer
+    - "-I./include/"
+    - "-I/include/"
+    - "-I./source/"
+    - "-I/source/"
+    - "-I../../source/"
+  CompilationDatabase: build/dev
