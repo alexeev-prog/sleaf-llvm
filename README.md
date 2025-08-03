@@ -78,12 +78,6 @@ You also can read [Hacking](./HACKING.md)
 | **LLVM19 Backend** | Direct LLVM IR generation via C++ API | Near-native execution speed, advanced optimizations |
 | **Cross-Platform** | Single IR → Windows/Linux/macOS binaries | Consistent behavior across platforms |
 
-### Contribution Guidelines
-1. **Issue Tracking** - Report bugs via GitHub Issues
-2. **Pull Requests** - Follow [CONTRIBUTING.md](CONTRIBUTING.md)
-3. **Code Standards** - Adhere to specifications
-4. **Performance** - Validate changes with benchmarks
-5. **Documentation** - Update relevant documentation
 
 ## ⚖️ License
 ```text
@@ -119,6 +113,13 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 - Performance optimization proposals
 - Extended version format support
 - IDE integration plugins
+
+### Contribution Guidelines
+1. **Issue Tracking** - Report bugs via GitHub Issues
+2. **Pull Requests** - Follow [CONTRIBUTING.md](CONTRIBUTING.md)
+3. **Code Standards** - Adhere to specifications
+4. **Performance** - Validate changes with benchmarks
+5. **Documentation** - Update relevant documentation
 
 ## License & Support
 
