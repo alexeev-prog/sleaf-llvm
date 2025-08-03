@@ -39,6 +39,9 @@
   <img src="https://raw.githubusercontent.com/alexeev-prog/sleaf-llvm/refs/heads/main/docs/pallet-0.png" width="600" alt="Color Palette">
 </div>
 
+> [!CAUTION]
+> SLEAF is currently in active alpha development. While core functionality is stable, some advanced features are still evolving. Production use requires thorough testing.
+
 ## 🚀 Technical Overview
 SLEAF is a statically-typed systems programming language designed for performance-critical applications.
 Built on LLVM 19, it combines low-level memory control with expressive S-expression syntax.
@@ -115,3 +118,25 @@ you can create anything and everything you want."*
   <br>
   <sub>Made with LLVM 19</sub>
 </div>
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Key areas for contribution include:
+- Additional test cases for thread-local scenarios
+- Performance optimization proposals
+- Extended version format support
+- IDE integration plugins
+
+## License & Support
+
+This project is licensed under **GNU GPL 3.0 License** - see [LICENSE](https://github.com/alexeev-prog/sleaf-llvm/blob/main/LICENSE). For commercial support and enterprise features, contact [alexeev.dev@mail.ru](mailto:alexeev.dev@mail.ru).
+
+[Explore Documentation](https://alexeev-prog.github.io/sleaf-llvm) |
+[Report Issue](https://github.com/alexeev-prog/sleaf-llvm/issues) |
+[View Examples](./examples)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+Copyright © 2025 Alexeev Bronislav. Distributed under GNU GPL 3 license.
