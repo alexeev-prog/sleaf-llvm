@@ -1,3 +1,9 @@
+commit 3deffd2602e6c1cdc1debd5ece0a161096339a85
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 06:34:31 2025 +0700
+
+    add new scripts for get version and create headers
+
 commit 3be5a1951f352b20d1eb404d01400d565c1b37fd
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 06:24:33 2025 +0700
