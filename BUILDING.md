@@ -1,5 +1,12 @@
 # Building with CMake
 
+## Activate Nix Shell
+SLEAF dev environment support nix shells:
+
+```bash
+nix-shell
+```
+
 ## Build
 
 This project doesn't require any special command-line flags to build to keep
@@ -19,6 +26,19 @@ generator, like the Visual Studio ones:
 ```sh
 cmake -S . -B build
 cmake --build build --config Release
+```
+
+## OR build with build script
+We have special bash-script for automate building and running:
+
+```sh
+./build.sh all
+```
+
+You can try **legacy** script:
+
+```sh
+./scripts/build-legacy.sh # NOT recommended
 ```
 
 ### Building with MSVC

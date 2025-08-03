@@ -1,3 +1,9 @@
+commit 786234ec4157a8b5ce04cdd84c00c4d6a3e412a5
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 05:59:51 2025 +0700
+
+    fix ci workflopw
+
 commit 06bf2b608a5845a3ee3ca97448a0bf826ef2cd3f
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 05:51:50 2025 +0700

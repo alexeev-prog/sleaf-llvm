@@ -102,7 +102,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 ## SLEAF Manifesto
 *"We reject the false choice between performance and expressiveness.
 We reject the old methods imposed by backward compatibility with
-long-dead legacy products. Morning is a new era in programming
+long-dead legacy products. SLEAF is a new era in researching programming
 that combines the simplicity of S-expressions with the functionality
 of C++. Thanks to the purity of the project and its versatility,
 you can create anything and everything you want."*
