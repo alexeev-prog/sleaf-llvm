@@ -1,3 +1,9 @@
+commit 1eba8090030352706d9b03478e7c901416b36b59
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 06:05:04 2025 +0700
+
+    update .md files
+
 commit 786234ec4157a8b5ce04cdd84c00c4d6a3e412a5
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 05:59:51 2025 +0700

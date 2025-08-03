@@ -47,7 +47,7 @@ Built on LLVM 19, it combines low-level memory control with expressive S-express
 
 ### System Requirements
 - LLVM 19 development files
-- C++20 compatible compiler
+- C++20 compatible clang version
 - CPU
 - RAM (optional)
 
@@ -63,14 +63,16 @@ cd sleaf-llvm
 ./build/bin/sleafllvm -h
 ```
 
+### How To Use
+Please, build and install lib. [Instruction here](./BUILDING.md).
+
+You also can read [Hacking](./HACKING.md)
+
 ### Core Technical Features
 | Feature | Technical Implementation | Performance Impact |
 |---------|---------------------------|---------------------|
 | **S-expression Syntax** | Lisp-inspired uniform code representation | Reduced cognitive load, enhanced metaprogramming |
 | **LLVM19 Backend** | Direct LLVM IR generation via C++ API | Near-native execution speed, advanced optimizations |
-| **Static Typing System** | Type annotations (!int, !ptr) with inference | Compile-time safety, zero-cost abstractions |
-| **Memory Control** | Manual allocation (mem-alloc) with scope-based safety | Predictable performance, no GC pauses |
-| **Bitwise Operations** | Native bit-and/bit-or/bit-shl instructions | Hardware-level efficiency |
 | **Cross-Platform** | Single IR → Windows/Linux/macOS binaries | Consistent behavior across platforms |
 
 ### Contribution Guidelines
