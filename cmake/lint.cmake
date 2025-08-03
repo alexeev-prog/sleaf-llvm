@@ -49,3 +49,4 @@ if(NOT badly_formatted STREQUAL "")
   message("The following files are badly formatted:\n\n${bad_list}\n")
   message(FATAL_ERROR "Run again with FIX=YES to fix these files.")
 endif()
+

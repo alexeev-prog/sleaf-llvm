@@ -1,6 +1,4 @@
 #include "lib.hpp"
 
 library::library()
-    : name {"sleaf-llvm"}
-{
-}
+    : name {"sleaf-llvm"} {}
