@@ -1,3 +1,9 @@
+commit 545b6afe65ff913a73adca2d2ab946543735a02a
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 06:08:30 2025 +0700
+
+    fix github templates
+
 commit 561d3b9503b2d715254c617e3da5a26f6cbb9b94
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 06:07:09 2025 +0700
