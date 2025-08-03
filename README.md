@@ -112,13 +112,6 @@ that combines the simplicity of S-expressions with the functionality
 of C++. Thanks to the purity of the project and its versatility,
 you can create anything and everything you want."*
 
-<div align="center">
-  <br>
-  <a href="#readme-top">↑ Back to Top ↑</a>
-  <br>
-  <sub>Made with LLVM 19</sub>
-</div>
-
 ## Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Key areas for contribution include:
@@ -135,8 +128,12 @@ This project is licensed under **GNU GPL 3.0 License** - see [LICENSE](https://g
 [Report Issue](https://github.com/alexeev-prog/sleaf-llvm/issues) |
 [View Examples](./examples)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+---.
 
----
-
-Copyright © 2025 Alexeev Bronislav. Distributed under GNU GPL 3 license.
+<div align="center">
+  <br>
+  <p>Copyright © 2025 Alexeev Bronislav. Distributed under GNU GPL 3 license</p>
+  <a href="#readme-top">↑ Back to Top ↑</a>
+  <br>
+  <sub>Made with LLVM 19</sub>
+</div>
