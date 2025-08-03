@@ -1,3 +1,9 @@
+commit 3714c72a300ed9b7359b3166e208a2c8c3e50e79
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 06:21:09 2025 +0700
+
+    update readme, add examples directory
+
 commit 9629c8159a937eb12c29a41357d091a9594161d4
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 06:18:43 2025 +0700

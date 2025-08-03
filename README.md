@@ -128,7 +128,7 @@ This project is licensed under **GNU GPL 3.0 License** - see [LICENSE](https://g
 [Report Issue](https://github.com/alexeev-prog/sleaf-llvm/issues) |
 [View Examples](./examples)
 
----.
+---
 
 <div align="center">
   <br>
