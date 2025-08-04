@@ -4,7 +4,7 @@
 <div align="center">
   <!-- <img src="https://raw.githubusercontent.com/alexeev-prog/sleaf-llvm/refs/heads/main/docs/logo.png" width="250" alt="MorningLang Logo"> -->
 
-  <h3>Basic programming language based on S-expressions made with C++ &amp; LLVM</h3>
+  <h3>Programming language based on S-expressions made with C++ &amp; LLVM</h3>
 
   <div align="center">
     <a href="https://marketplace.visualstudio.com/items?itemName=alexeevdev.sleaf-llvmuage-syntax">
@@ -81,7 +81,7 @@ You also can read [Hacking](./HACKING.md)
 
 ## ⚖️ License
 ```text
-Basic programming language based on S-expressions made with C++ &amp; LLVM
+Programming language based on S-expressions made with C++ &amp; LLVM
 Copyright (C) 2025 Alexeev Bronislav
 
 This program is free software: you can redistribute it and/or modify
@@ -103,7 +103,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 We reject the old methods imposed by backward compatibility with
 long-dead legacy products. SLEAF is a new era in researching programming
 that combines the simplicity of S-expressions with the functionality
-of C++. Thanks to the purity of the project and its versatility,
+of C/C++. Thanks to the purity of the project and its versatility,
 you can create anything and everything you want."*
 
 ## Contributing
