@@ -32,6 +32,8 @@ find_package(Clang REQUIRED CONFIG)
 add_library(
     sleaf-llvm_lib OBJECT
     source/input_parser.cpp
+    source/logger.cpp
+    source/tracelogger.cpp
 )
 
 target_include_directories(
