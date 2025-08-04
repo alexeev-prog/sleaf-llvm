@@ -1,3 +1,9 @@
+commit a392b4dd192b45470883574dfb73c9600c67ff42
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 08:16:24 2025 +0700
+
+    fix CI workflow, update cmakelists, add logger and create basic CLI app
+
 commit 9d569df2d578c16c0bc2faed143d24be83e9ffaf
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 08:09:07 2025 +0700

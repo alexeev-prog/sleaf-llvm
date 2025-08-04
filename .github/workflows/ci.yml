@@ -16,18 +16,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-python@v5
-      with: { python-version: "3.12" }
+    - name: Install Nix
+      run: |
+        sh <(curl -L https://nixos.org/nix/install) --daemon
 
-    - name: Install codespell
-      run: pip3 install codespell
-
-    - name: Lint
-      run: cmake -D FORMAT_COMMAND=clang-format-18 -P cmake/lint.cmake
+    - name: Enter Nix shell and run lint
+      run: |
+        nix-shell shell.nix --run "pip3 install codespell && cmake -D FORMAT_COMMAND=clang-format-18 -P cmake/lint.cmake"
 
     - name: Spell check
       if: always()
-      run: cmake -P cmake/spell.cmake
+      run: |
+        nix-shell shell.nix --run "cmake -P cmake/spell.cmake"
 
   coverage:
     needs: [lint]
@@ -39,35 +39,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install LCov
-      run: sudo apt-get update -q && sudo apt-get install lcov -q -y
-
-    - name: Install dependencies
+    - name: Install Nix
       run: |
-        sudo apt-get update -q
-        sudo apt-get install -y -q \
-          libboost-all-dev \
-          clang \
-          llvm \
-          pkg-config \
-          catch2 \
-          libabsl-dev \
-          libxml2-dev \
-          libffi-dev \
-          libtinfo-dev
+        sh <(curl -L https://nixos.org/nix/install) --daemon
 
-    - name: Configure
-      run: cmake --preset=ci-coverage
-
-    - name: Build
-      run: cmake --build build/coverage -j 2
-
-    - name: Test
-      working-directory: build/coverage
-      run: ctest --output-on-failure --no-tests=error -j 2
-
-    - name: Process coverage info
-      run: cmake --build build/coverage -t coverage
+    - name: Enter Nix shell and run coverage
+      run: |
+        nix-shell shell.nix --run "
+          cmake --preset=ci-coverage &&
+          cmake --build build/coverage -j 2 &&
+          ctest --output-on-failure --no-tests=error -j 2 &&
+          cmake --build build/coverage -t coverage
+        "
 
     - name: Submit to codecov.io
       uses: codecov/codecov-action@v4
@@ -75,15 +58,51 @@ jobs:
         file: build/coverage/coverage.info
         token: ${{ secrets.CODECOV_TOKEN }}
 
-    - name: Configure
-      run: cmake --preset=ci-sanitize
+  sanitize:
+    needs: [lint]
 
-    - name: Build
-      run: cmake --build build/sanitize -j 2
+    runs-on: ubuntu-24.04
 
-    - name: Test
-      working-directory: build/sanitize
-      env:
-        ASAN_OPTIONS: "strict_string_checks=1: detect_stack_use_after_return=1: check_initialization_order=1: strict_init_order=1: detect_leaks=1: halt_on_error=1"
-        UBSAN_OPTIONS: "print_stacktrace=1: halt_on_error=1"
-      run: ctest --output-on-failure --no-tests=error -j 2
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Nix
+      run: |
+        sh <(curl -L https://nixos.org/nix/install) --daemon
+
+    - name: Enter Nix shell and run sanitize
+      run: |
+        nix-shell shell.nix --run "
+          cmake --preset=ci-sanitize &&
+          cmake --build build/sanitize -j 2 &&
+          ctest --output-on-failure --no-tests=error -j 2
+        "
+
+  test:
+    needs: [lint]
+
+    strategy:
+      matrix:
+        os: [ubuntu-24.04]
+        type: [shared, static]
+        include:
+        - { type: shared, shared: YES }
+        - { type: static, shared: NO }
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Nix
+      run: |
+        sh <(curl -L https://nixos.org/nix/install) --daemon
+
+    - name: Enter Nix shell and run tests
+      run: |
+        nix-shell shell.nix --run "
+          cmake --preset=ci-$("${{ matrix.os }}".split('-')[0]) -D BUILD_SHARED_LIBS=${{ matrix.shared }} &&
+          cmake --build build --config Release -j 2 &&
+          cmake --install build --config Release --prefix prefix &&
+          ctest --output-on-failure --no-tests=error -C Release -j 2
+        "
