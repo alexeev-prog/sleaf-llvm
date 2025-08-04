@@ -83,6 +83,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y -q \
+          libboost-all-dev \
+          clang \
+          llvm \
+          pkg-config \
+          libcatch2-dev \
+          libabsl-dev \
+          libxml2-dev
+
     - name: Configure
       run: cmake --preset=ci-sanitize
 
