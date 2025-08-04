@@ -34,19 +34,13 @@ jobs:
 
     runs-on: ubuntu-24.04
 
-    # To enable coverage, delete the last line from the conditional below and
-    # edit the "<name>" placeholder to your GitHub name.
-    # If you do not wish to use codecov, then simply delete this job from the
-    # workflow.
-    if: github.repository_owner == '<name>'
-      && false
+    if: github.repository_owner == '<name>' && false
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Install LCov
-      run: sudo apt-get update -q
-        && sudo apt-get install lcov -q -y
+      run: sudo apt-get update -q && sudo apt-get install lcov -q -y
 
     - name: Configure
       run: cmake --preset=ci-coverage
@@ -86,14 +80,8 @@ jobs:
     - name: Test
       working-directory: build/sanitize
       env:
-        ASAN_OPTIONS: "strict_string_checks=1:\
-          detect_stack_use_after_return=1:\
-          check_initialization_order=1:\
-          strict_init_order=1:\
-          detect_leaks=1:\
-          halt_on_error=1"
-        UBSAN_OPTIONS: "print_stacktrace=1:\
-          halt_on_error=1"
+        ASAN_OPTIONS: "strict_string_checks=1: detect_stack_use_after_return=1: check_initialization_order=1: strict_init_order=1: detect_leaks=1: halt_on_error=1"
+        UBSAN_OPTIONS: "print_stacktrace=1: halt_on_error=1"
       run: ctest --output-on-failure --no-tests=error -j 2
 
   test:
@@ -102,9 +90,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-14, ubuntu-24.04, windows-2022]
-
         type: [shared, static]
-
         include:
         - { type: shared, shared: YES }
         - { type: static, shared: NO }
@@ -113,6 +99,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-24.04'
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y -q \
+          libboost-all-dev \
+          clang \
+          llvm \
+          pkg-config \
+          libcatch2-dev \
+          libabsl-dev \
+          libxml2-dev
 
     - name: Install static analyzers
       if: matrix.os == 'ubuntu-24.04'
@@ -132,8 +131,7 @@ jobs:
 
     - name: Configure
       shell: pwsh
-      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
-        -D BUILD_SHARED_LIBS=${{ matrix.shared }}
+      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])" -D BUILD_SHARED_LIBS=${{ matrix.shared }}
 
     - name: Setup PATH
       if: matrix.os == 'windows-2022' && matrix.type == 'shared'
