@@ -1,3 +1,9 @@
+commit 3c80bf01287b869558bdf3ed1eb334b041639596
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 16:14:04 2025 +0700
+
+    update cmake
+
 commit e7ffeeee0f2be691eb5dfa2442954756b44425b1
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 16:04:10 2025 +0700
