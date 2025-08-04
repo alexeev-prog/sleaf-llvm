@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.20)
 
 include(cmake/prelude.cmake)
 
@@ -12,6 +12,11 @@ project(
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
+
+if (POLICY CMP0167)
+    cmake_policy(SET CMP0167 NEW)
+endif()
+
 
 # ---- Find dependencies ----
 
