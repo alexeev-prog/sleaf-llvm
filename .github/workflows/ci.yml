@@ -50,7 +50,7 @@ jobs:
           clang \
           llvm \
           pkg-config \
-          libcatch2-dev \
+          catch2 \
           libabsl-dev \
           libxml2-dev
 
@@ -91,7 +91,7 @@ jobs:
           clang \
           llvm \
           pkg-config \
-          libcatch2-dev \
+          catch2 \
           libabsl-dev \
           libxml2-dev
 
@@ -133,7 +133,7 @@ jobs:
           clang \
           llvm \
           pkg-config \
-          libcatch2-dev \
+          catch2 \
           libabsl-dev \
           libxml2-dev
 
