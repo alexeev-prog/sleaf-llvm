@@ -17,7 +17,7 @@ include(cmake/variables.cmake)
 
 add_library(
     sleaf-llvm_lib OBJECT
-    source/lib.cpp
+    source/input_parser.cpp
 )
 
 target_include_directories(

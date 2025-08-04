@@ -1,3 +1,9 @@
+commit 9fa882c7811ec4b4b2bc9304ce8d491143603160
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 07:39:39 2025 +0700
+
+    add input parser and update dependencies, and fix codestyle
+
 commit b8c66cd7b406e1bdea693022cfb21ae5c18cbfb7
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 06:48:18 2025 +0700
