@@ -1,3 +1,9 @@
+commit 7f7d60a30f81ebce223acb163467a49da4792c3c
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 16:19:16 2025 +0700
+
+    fix CI workflow
+
 commit 3c80bf01287b869558bdf3ed1eb334b041639596
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 16:14:04 2025 +0700

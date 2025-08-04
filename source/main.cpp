@@ -9,7 +9,10 @@
 #include <string>
 #include <vector>
 
+#include <boost/algorithm/cxx11/none_of.hpp>
+
 #include "_default.hpp"
+#include "absl/strings/match.h"
 #include "input_parser.hpp"
 #include "logger.hpp"
 
@@ -50,7 +53,7 @@ namespace {
         if (path.empty()) {
             return "\"\"";
         }
-        if (path.find(' ') != std::string::npos) {
+        if (absl::StrContains(path, ' ')) {
             return "\"" + path + "\"";
         }
         return path;
@@ -60,16 +63,16 @@ namespace {
      * @brief Compile generated IR to binary
      */
     auto compile_ir(const std::string& output_base) -> bool {
-        const std::string ll_file = output_base + ".ll";
-        const std::string opt_ll_file = output_base + "-opt.ll";
-        const std::string bin_file = output_base;
+        const std::string LL_FILE = output_base + ".ll";
+        const std::string OPT_LL_FILE = output_base + "-opt.ll";
+        const std::string& bin_file = output_base;
 
-        if (!fs::exists(ll_file)) {
+        if (!fs::exists(LL_FILE)) {
             LOG_ERROR("IR code not found");
             return false;
         }
 
-        std::string opt_cmd = "opt " + safe_path(ll_file) + " -O3 -S -o " + safe_path(opt_ll_file);
+        std::string opt_cmd = "opt " + safe_path(LL_FILE) + " -O3 -S -o " + safe_path(OPT_LL_FILE);
 
         LOG_INFO("Optimizing code...");
 
@@ -80,12 +83,12 @@ namespace {
             return false;
         }
 
-        if (!fs::exists(opt_ll_file) || fs::file_size(opt_ll_file) == 0) {
+        if (!fs::exists(OPT_LL_FILE) || fs::file_size(OPT_LL_FILE) == 0) {
             LOG_ERROR("Optimized IR code not created");
             return false;
         }
 
-        std::string clang_cmd = "clang++ -O3 " + safe_path(opt_ll_file) + " -o " + safe_path(bin_file);
+        std::string clang_cmd = "clang++ -O3 " + safe_path(OPT_LL_FILE) + " -o " + safe_path(bin_file);
 
         LOG_INFO("Compiling optimized code...");
 
@@ -148,8 +151,7 @@ namespace {
         }
 
         const std::string FORBIDDEN_CHARS = "/\\:*?\"<>|";
-        return std::none_of(
-            name.begin(), name.end(), [&](char c) { return FORBIDDEN_CHARS.find(c) != std::string::npos; });
+        return boost::algorithm::none_of(name, [&](char c) { return absl::StrContains(FORBIDDEN_CHARS, c); });
     }
 }    // namespace
 
@@ -166,6 +168,7 @@ auto main(int argc, char** argv) -> int {
     // Register command line options
     parser.add_option({"-v", "--version", "Get version", false, ""});
     parser.add_option({"-h", "--help", "Print this help message", false, ""});
+    parser.add_option({"-c", "--check-utils-available", "Check required utils", false, ""});
 
     // Parse command line
     if (!parser.parse(argc, argv)) {
@@ -174,6 +177,16 @@ auto main(int argc, char** argv) -> int {
         }
         std::cerr << parser.generate_help() << "\n";
         return 1;
+    }
+
+    if (parser.has_option("-c")) {
+        if (!check_utils_available()) {
+            LOG_ERROR("Utils not available. You installed clang++ and opt?");
+            return 1;
+        }
+
+        LOG_INFO("All utils available!");
+        return 0;
     }
 
     if (parser.has_option("-v")) {
