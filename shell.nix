@@ -21,6 +21,7 @@ let
     gdb
     catch2
     nodejs
+    abseil-cpp
     catch2_3
     boehmgc
     valgrind
