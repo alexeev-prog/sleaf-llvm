@@ -1,3 +1,15 @@
+commit e7ffeeee0f2be691eb5dfa2442954756b44425b1
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 16:04:10 2025 +0700
+
+    fix tests (todo: add normal tests)
+
+commit eb4f8e1a2d8e9cf27d81c9174985af739d0c0ff4
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 16:00:28 2025 +0700
+
+    update cmake
+
 commit 6672335316b809d64b34aa97e59dd731e61e946b
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 15:49:35 2025 +0700

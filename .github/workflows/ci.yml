@@ -15,18 +15,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    # Установка Nix
     - uses: cachix/install-nix-action@v25
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
 
     - name: Run linting
-      run: nix-shell --run "cmake -D FORMAT_COMMAND=clang-format -P cmake/lint.cmake"
+      run: nix-shell --run "cmake -D FORMAT_COMMAND=clang-format -P cmake/lint.cmake" shell.nix
 
     - name: Spell check
       if: always()
-      run: nix-shell --run "cmake -P cmake/spell.cmake"
+      run: nix-shell --run "cmake -P cmake/spell.cmake" shell.nix
 
   coverage:
     needs: [lint]
@@ -35,24 +33,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    # Установка Nix
     - uses: cachix/install-nix-action@v25
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
 
     - name: Configure
-      run: nix-shell --run "cmake --preset=ci-coverage"
+      run: nix-shell --run "cmake --preset=ci-coverage" shell.nix
 
     - name: Build
-      run: nix-shell --run "cmake --build build/coverage -j 2"
+      run: nix-shell --run "cmake --build build/coverage -j 2" shell.nix
 
     - name: Test
       working-directory: build/coverage
-      run: nix-shell --run "ctest --output-on-failure --no-tests=error -j 2"
+      run: nix-shell --run "ctest --output-on-failure --no-tests=error -j 2" shell.nix
 
     - name: Process coverage info
-      run: nix-shell --run "cmake --build build/coverage -t coverage"
+      run: nix-shell --run "cmake --build build/coverage -t coverage" shell.nix
 
     - name: Submit to codecov.io
       uses: codecov/codecov-action@v4
@@ -66,21 +62,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    # Установка Nix
     - uses: cachix/install-nix-action@v25
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
 
     - name: Configure
-      run: nix-shell --run "cmake --preset=ci-sanitize"
+      run: nix-shell --run "cmake --preset=ci-sanitize" shell.nix
 
     - name: Build
-      run: nix-shell --run "cmake --build build/sanitize -j 2"
+      run: nix-shell --run "cmake --build build/sanitize -j 2" shell.nix
 
     - name: Test
       working-directory: build/sanitize
-      run: nix-shell --run 'ASAN_OPTIONS="strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:detect_leaks=1:halt_on_error=1" UBSAN_OPTIONS="print_stacktrace=1:halt_on_error=1" ctest --output-on-failure --no-tests=error -j 2'
+      run: nix-shell --run 'ASAN_OPTIONS="strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:detect_leaks=1:halt_on_error=1" UBSAN_OPTIONS="print_stacktrace=1:halt_on_error=1" ctest --output-on-failure --no-tests=error -j 2' shell.nix
 
   test:
     needs: [lint]
@@ -96,8 +90,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    # Установка Nix
     - uses: cachix/install-nix-action@v25
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
@@ -109,14 +101,14 @@ jobs:
         echo "os_short=$OS_SHORT" >> $GITHUB_OUTPUT
 
     - name: Configure
-      run: nix-shell --run "cmake --preset=ci-${{ steps.os-name.outputs.os_short }} -D BUILD_SHARED_LIBS=${{ matrix.shared }}"
+      run: nix-shell --run "cmake --preset=ci-${{ steps.os-name.outputs.os_short }} -D BUILD_SHARED_LIBS=${{ matrix.shared }}" shell.nix
 
     - name: Build
-      run: nix-shell --run "cmake --build build --config Release -j 2"
+      run: nix-shell --run "cmake --build build --config Release -j 2" shell.nix
 
     - name: Install
-      run: nix-shell --run "cmake --install build --config Release --prefix prefix"
+      run: nix-shell --run "cmake --install build --config Release --prefix prefix" shell.nix
 
     - name: Test
       working-directory: build
-      run: nix-shell --run "ctest --output-on-failure --no-tests=error -C Release -j 2"
+      run: nix-shell --run "ctest --output-on-failure --no-tests=error -C Release -j 2" shell.nix
