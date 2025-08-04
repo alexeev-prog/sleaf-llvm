@@ -13,6 +13,20 @@ project(
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
 
+# ---- Find dependencies ----
+
+find_package(Boost REQUIRED)
+find_package(Clang REQUIRED)
+find_package(LLVM REQUIRED)
+find_package(PkgConfig REQUIRED)
+find_package(Catch2 REQUIRED)
+find_package(absl REQUIRED)
+find_package(libxml2 REQUIRED)
+
+# If you have specific components of LLVM or Clang you need, specify them here
+find_package(LLVM REQUIRED CONFIG)
+find_package(Clang REQUIRED CONFIG)
+
 # ---- Declare library ----
 
 add_library(
@@ -23,7 +37,7 @@ add_library(
 target_include_directories(
     sleaf-llvm_lib ${warning_guard}
     PUBLIC
-    "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
+    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
 )
 
 target_compile_features(sleaf-llvm_lib PUBLIC cxx_std_20)

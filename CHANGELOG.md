@@ -1,3 +1,9 @@
+commit 50d1915417283a6f0faf2398eddb59a8de7481c4
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Mon Aug 4 07:41:36 2025 +0700
+
+    update CMakeLists.txt
+
 commit 9fa882c7811ec4b4b2bc9304ce8d491143603160
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 07:39:39 2025 +0700
