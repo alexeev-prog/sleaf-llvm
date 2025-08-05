@@ -4,7 +4,7 @@
 <div align="center">
   <!-- <img src="https://raw.githubusercontent.com/alexeev-prog/sleaf-llvm/refs/heads/main/docs/logo.png" width="250" alt="MorningLang Logo"> -->
 
-  <h3>Programming language based on S-expressions made with C++ &amp; LLVM</h3>
+  <h3>System programming language made with C++ &amp; LLVM</h3>
 
   <div align="center">
     <a href="https://marketplace.visualstudio.com/items?itemName=alexeevdev.sleaf-llvmuage-syntax">
@@ -44,7 +44,7 @@
 
 ## 🚀 Technical Overview
 SLEAF is a statically-typed systems programming language designed for performance-critical applications.
-Built on LLVM 19, it combines low-level memory control with expressive S-expression syntax.
+Built on LLVM 19, it combines low-level memory control with expressive classic C-based-syntax.
 
 ## 📦 Installation & Usage
 
@@ -74,14 +74,13 @@ You also can read [Hacking](./HACKING.md)
 ### Core Technical Features
 | Feature | Technical Implementation | Performance Impact |
 |---------|---------------------------|---------------------|
-| **S-expression Syntax** | Lisp-inspired uniform code representation | Reduced cognitive load, enhanced metaprogramming |
 | **LLVM19 Backend** | Direct LLVM IR generation via C++ API | Near-native execution speed, advanced optimizations |
 | **Cross-Platform** | Single IR → Windows/Linux/macOS binaries | Consistent behavior across platforms |
 
 
 ## ⚖️ License
 ```text
-Programming language based on S-expressions made with C++ &amp; LLVM
+System programming language made with C++ &amp; LLVM
 Copyright (C) 2025 Alexeev Bronislav
 
 This program is free software: you can redistribute it and/or modify
@@ -102,7 +101,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 *"We reject the false choice between performance and expressiveness.
 We reject the old methods imposed by backward compatibility with
 long-dead legacy products. SLEAF is a new era in researching programming
-that combines the simplicity of S-expressions with the functionality
+that combines the simplicity of classic C-syntax with the functionality
 of C/C++. Thanks to the purity of the project and its versatility,
 you can create anything and everything you want."*
 

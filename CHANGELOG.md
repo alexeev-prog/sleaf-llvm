@@ -1,3 +1,9 @@
+commit 1c87ce5bc5f31a7531778fbc60baa23444a5f4f4
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Tue Aug 5 06:48:29 2025 +0700
+
+    fix code style and add flag for checking required utils
+
 commit 7f7d60a30f81ebce223acb163467a49da4792c3c
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Mon Aug 4 16:19:16 2025 +0700
