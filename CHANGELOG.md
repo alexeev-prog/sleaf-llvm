@@ -1,3 +1,9 @@
+commit b8b19a87ac2b8686bc497d02f945343f04f93c52
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Tue Aug 5 17:31:19 2025 +0700
+
+    update terminology
+
 commit 1c87ce5bc5f31a7531778fbc60baa23444a5f4f4
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Tue Aug 5 06:48:29 2025 +0700

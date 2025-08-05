@@ -5,7 +5,7 @@ include(cmake/prelude.cmake)
 project(
     sleaf-llvm
     VERSION 0.1.0
-    DESCRIPTION "Basic Programming Language in C++ LLVM"
+    DESCRIPTION "System Programming Language in C++ LLVM"
     HOMEPAGE_URL "https://github.com/alexeev-prog/sleaf-llvm"
     LANGUAGES CXX
 )
