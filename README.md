@@ -46,6 +46,20 @@
 SLEAF is a statically-typed systems programming language designed for performance-critical applications.
 Built on LLVM 19, it combines low-level memory control with expressive classic C-based-syntax.
 
+### Examples
+
+#### Hello World
+
+```sleaf
+// SLEAF example code
+func main() -> i32 {
+    const string hello = "Hello, World!";
+
+    printf("%s\n", hello);
+    return 0;
+}
+```
+
 ## 📦 Installation & Usage
 
 ### System Requirements

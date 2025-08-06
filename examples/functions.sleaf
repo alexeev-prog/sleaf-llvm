@@ -1,3 +1,0 @@
-[func square (a !int) [a * a]]
-
-[printf "2 square: %d" (square 2)] // should: 4

@@ -1,3 +1,9 @@
+commit 1ff458a592c1e6ce3b276308027ad153e22bd882
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Wed Aug 6 17:53:58 2025 +0700
+
+    create a lexer analyzer and tokens
+
 commit 40e2622ab951c573be8d98a11ac6b55cbe3a1093
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Tue Aug 5 22:53:36 2025 +0700

@@ -1,1 +1,7 @@
-[printf "Hello, World!"]
+// SLEAF example code
+func main() -> i32 {
+    const string hello = "Hello, World!";
+
+    printf("%s\n", hello);
+    return 0;
+}
