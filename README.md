@@ -43,8 +43,24 @@
 > SLEAF is currently in active alpha development. While core functionality is stable, some advanced features are still evolving. Production use requires thorough testing.
 
 ## 🚀 Technical Overview
-SLEAF is a statically-typed systems programming language designed for performance-critical applications.
-Built on LLVM 19, it combines low-level memory control with expressive classic C-based-syntax.
+sleaf-llvm is a statically-typed systems programming language compiler targeting LLVM IR. The implementation provides:
+
+- **LLVM 19 Backend**: Direct IR generation via C++ API
+- **Modern C++20 Codebase**: Leveraging metaprogramming and template features
+- **Cross-Platform Support**: Generates binaries for Windows/Linux/macOS
+- **Modular Architecture**: Separated lexer/parser/IR generation components
+
+> **Current Status**: Alpha development (v0.1.0). Core compilation pipeline functional. Not production-ready.
+
+```mermaid
+graph LR
+    A[Source Code] --> B[Lexer]
+    B --> C[Parser]
+    C --> D[AST Generation]
+    D --> E[IR Generation]
+    E --> F[LLVM Optimization]
+    F --> G[Machine Code]
+```
 
 ### Examples
 
@@ -63,10 +79,13 @@ func main() -> i32 {
 ## 📦 Installation & Usage
 
 ### System Requirements
-- LLVM 19 development files
-- C++20 compatible clang version
-- CPU
-- RAM (optional)
+
+| Component       | Minimum Version | Notes                          |
+|-----------------|-----------------|--------------------------------|
+| LLVM            | 19.x            | Development libraries required |
+| Clang           | 15.0+           | C++20 support mandatory        |
+| CMake           | 3.20+           | Build system                   |
+| Python          | 3.8+            | Scripting utilities            |
 
 ### Build Instructions
 ```bash
