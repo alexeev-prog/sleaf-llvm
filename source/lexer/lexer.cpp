@@ -257,15 +257,15 @@ namespace sleaf {
         }
 
         static const std::unordered_map<std::string, TokenType> keywords = {
-            {"func", TokenType::FUNC},     {"return", TokenType::RETURN}, {"i8", TokenType::I8},
-            {"i16", TokenType::I16},       {"i32", TokenType::I32},       {"i64", TokenType::I64},
-            {"u8", TokenType::U8},         {"u16", TokenType::U16},       {"u32", TokenType::U32},
-            {"u64", TokenType::U64},       {"f32", TokenType::F32},       {"f64", TokenType::F64},
-            {"bool", TokenType::BOOL},     {"string", TokenType::STRING}, {"char", TokenType::CHAR},
-            {"void", TokenType::VOID},     {"true", TokenType::TRUE},     {"false", TokenType::FALSE},
-            {"if", TokenType::IF},         {"else", TokenType::ELSE},     {"while", TokenType::WHILE},
-            {"for", TokenType::FOR},       {"struct", TokenType::STRUCT}, {"import", TokenType::IMPORT},
-            {"const", TokenType::CONST},   {"var", TokenType::VAR}};
+            {"func", TokenType::FUNC},   {"return", TokenType::RETURN}, {"i8", TokenType::I8},
+            {"i16", TokenType::I16},     {"i32", TokenType::I32},       {"i64", TokenType::I64},
+            {"u8", TokenType::U8},       {"u16", TokenType::U16},       {"u32", TokenType::U32},
+            {"u64", TokenType::U64},     {"f32", TokenType::F32},       {"f64", TokenType::F64},
+            {"bool", TokenType::BOOL},   {"string", TokenType::STRING}, {"char", TokenType::CHAR},
+            {"void", TokenType::VOID},   {"true", TokenType::TRUE},     {"false", TokenType::FALSE},
+            {"if", TokenType::IF},       {"else", TokenType::ELSE},     {"while", TokenType::WHILE},
+            {"for", TokenType::FOR},     {"struct", TokenType::STRUCT}, {"import", TokenType::IMPORT},
+            {"const", TokenType::CONST}, {"var", TokenType::VAR}};
 
         std::string text = m_SOURCE.substr(m_START, m_CURRENT - m_START);
         auto it = keywords.find(text);

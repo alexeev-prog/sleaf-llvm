@@ -1,3 +1,15 @@
+commit 52c23be18e987b8937fb227b1b406e2501297f37
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Wed Aug 6 21:43:12 2025 +0700
+
+    add parser and AST
+
+commit 8aa9bfebb2e78f797ed3e858ecbd66502ce267f2
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Wed Aug 6 18:01:06 2025 +0700
+
+    update readme
+
 commit bcc1f7df8150c9d2edb82dfcb57fcbb502841dad
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Wed Aug 6 17:56:41 2025 +0700

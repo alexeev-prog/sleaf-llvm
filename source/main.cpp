@@ -14,10 +14,10 @@
 
 #include "_default.hpp"
 #include "absl/strings/match.h"
-#include "input_parser.hpp"
-#include "logger.hpp"
 #include "ast/ast.hpp"
+#include "input_parser.hpp"
 #include "lexer/lexer.hpp"
+#include "logger.hpp"
 #include "parser/parser.hpp"
 
 using namespace sleaf;
@@ -47,8 +47,12 @@ namespace {
     }
 
     auto safe_path(const std::string& path) -> std::string {
-        if (path.empty()) return "\"\"";
-        if (absl::StrContains(path, ' ')) return "\"" + path + "\"";
+        if (path.empty()) {
+            return "\"\"";
+        }
+        if (absl::StrContains(path, ' ')) {
+            return "\"" + path + "\"";
+        }
         return path;
     }
 
@@ -96,7 +100,8 @@ namespace {
     }
 
     void cleanup_temp_files(const std::string& output_base) {
-        auto safe_remove = [](const std::string& path) {
+        auto safe_remove = [](const std::string& path)
+        {
             try {
                 if (fs::exists(path)) {
                     fs::remove(path);
@@ -124,11 +129,11 @@ namespace {
     }
 
     auto is_valid_output_name(const std::string& name) -> bool {
-        if (name.empty()) return false;
+        if (name.empty()) {
+            return false;
+        }
         const std::string FORBIDDEN_CHARS = "/\\:*?\"<>|";
-        return boost::algorithm::none_of(name, [&](char c) {
-            return absl::StrContains(FORBIDDEN_CHARS, c);
-        });
+        return boost::algorithm::none_of(name, [&](char c) { return absl::StrContains(FORBIDDEN_CHARS, c); });
     }
 
     auto format_token(const Token& token) -> std::string {
@@ -141,8 +146,7 @@ namespace {
     auto read_source(const std::string& filename) -> std::string {
         if (filename.empty()) {
             std::cout << "Enter SLEAF code (Ctrl+D to finish):\n";
-            return std::string(std::istreambuf_iterator<char>(std::cin),
-                               std::istreambuf_iterator<char>());
+            return std::string(std::istreambuf_iterator<char>(std::cin), std::istreambuf_iterator<char>());
         }
 
         std::ifstream file(filename);
@@ -150,8 +154,7 @@ namespace {
             LOG_CRITICAL("Could not open file: %s", filename.c_str());
             return "";
         }
-        return std::string(std::istreambuf_iterator<char>(file),
-                           std::istreambuf_iterator<char>());
+        return std::string(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
     }
 
     auto run_lexer(const std::string& source) -> int {
@@ -168,7 +171,9 @@ namespace {
             Token token = lexer.scan_token();
             std::cout << format_token(token) << "\n";
 
-            if (token.type == TokenType::END_OF_FILE) break;
+            if (token.type == TokenType::END_OF_FILE) {
+                break;
+            }
             if (token.type == TokenType::ERROR) {
                 std::cerr << "Lexical error: " << token.lexeme << "\n";
             }
@@ -185,15 +190,19 @@ namespace {
         int indent = 0;
 
         void print_indent() {
-            for (int i = 0; i < indent; ++i) std::cout << "  ";
+            for (int i = 0; i < indent; ++i) {
+                std::cout << "  ";
+            }
         }
 
-    public:
+      public:
         void visit(BlockStmt& node) override {
             print_indent();
             std::cout << "Block:\n";
             indent++;
-            for (auto& stmt : node.statements) stmt->accept(*this);
+            for (auto& stmt : node.statements) {
+                stmt->accept(*this);
+            }
             indent--;
         }
 
@@ -211,7 +220,9 @@ namespace {
             indent++;
             node.condition->accept(*this);
             node.then_branch->accept(*this);
-            if (node.else_branch) node.else_branch->accept(*this);
+            if (node.else_branch) {
+                node.else_branch->accept(*this);
+            }
             indent--;
         }
 
@@ -243,13 +254,21 @@ namespace {
         }
 
         void visit(WhileStmt&) override {}
+
         void visit(ForStmt&) override {}
+
         void visit(ReturnStmt&) override {}
+
         void visit(VarDecl&) override {}
+
         void visit(Parameter&) override {}
+
         void visit(AssignExpr&) override {}
+
         void visit(UnaryExpr&) override {}
+
         void visit(CallExpr&) override {}
+
         void visit(GroupingExpr&) override {}
     };
 
@@ -278,11 +297,10 @@ namespace {
     auto run_ast(const std::string& source) -> int {
         return run_parser(source);
     }
-}
+}    // namespace
 
 auto main(int argc, char** argv) -> int {
-    InputParser parser(fs::path(argv[0]).filename().string(),
-                   "SLeaf-LLVM - Compiler for SLeaf language");
+    InputParser parser(fs::path(argv[0]).filename().string(), "SLeaf-LLVM - Compiler for SLeaf language");
 
     parser.add_option({"-v", "--version", "Get version", false, ""});
     parser.add_option({"-h", "--help", "Print help", false, ""});
@@ -314,7 +332,9 @@ auto main(int argc, char** argv) -> int {
         return 0;
     }
 
-    if (!check_utils_available()) return 1;
+    if (!check_utils_available()) {
+        return 1;
+    }
 
     std::string output_file;
     if (auto output = parser.get_argument("-o")) {
