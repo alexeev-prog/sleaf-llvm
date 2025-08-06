@@ -39,6 +39,9 @@ add_library(
     source/input_parser.cpp
     source/logger.cpp
     source/tracelogger.cpp
+
+    # Lexer
+    source/lexer/lexer.cpp
 )
 
 target_include_directories(

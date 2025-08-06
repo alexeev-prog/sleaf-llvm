@@ -3,6 +3,7 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <optional>
 #include <sstream>
@@ -14,7 +15,10 @@
 #include "_default.hpp"
 #include "absl/strings/match.h"
 #include "input_parser.hpp"
+#include "lexer/lexer.hpp"
 #include "logger.hpp"
+
+using namespace sleaf;
 
 namespace fs = std::filesystem;
 
@@ -153,6 +157,59 @@ namespace {
         const std::string FORBIDDEN_CHARS = "/\\:*?\"<>|";
         return boost::algorithm::none_of(name, [&](char c) { return absl::StrContains(FORBIDDEN_CHARS, c); });
     }
+
+    /**
+     * @brief Format token for human-readable output
+     * @param token Token to format
+     * @return Formatted string representation
+     */
+    auto format_token(const Token& token) -> std::string {
+        std::ostringstream stringstream;
+        stringstream << "[" << std::setw(3) << token.line << ":" << std::setw(3) << token.column << "] "
+                     << std::setw(20) << std::left << token.type_name() << " '" << token.lexeme << "'";
+        return stringstream.str();
+    }
+
+    /**
+     * @brief Main entry point for lexer demonstration
+     *
+     * Usage:
+     *   ./sleaf_lexer [filename]  - Read from file
+     *   ./sleaf_lexer             - Read from stdin
+     */
+    auto run_lexer() -> int {
+        std::string source;
+        const int TOKEN_LIMIT = 500;
+
+        std::cout << "Enter SLEAF code (Ctrl+D to finish):\n";
+        source = std::string(std::istreambuf_iterator<char>(std::cin), std::istreambuf_iterator<char>());
+
+        // Create and run lexer
+        Lexer lexer(source);
+
+        std::cout << "\nToken stream:\n";
+        std::cout << "----------------------------------------\n";
+
+        int token_count = 0;
+        while (true) {
+            Token token = lexer.scan_token();
+            std::cout << format_token(token) << "\n";
+
+            if (token.type == TokenType::END_OF_FILE) {
+                break;
+            }
+            if (token.type == TokenType::ERROR) {
+                std::cerr << "Lexical error: " << token.lexeme << "\n";
+            }
+
+            if (++token_count > TOKEN_LIMIT) {
+                std::cerr << "Token limit exceeded (possible infinite loop)" << "\n";
+                break;
+            }
+        }
+
+        return 0;
+    }
 }    // namespace
 
 /**
@@ -169,12 +226,14 @@ auto main(int argc, char** argv) -> int {
     parser.add_option({"-v", "--version", "Get version", false, ""});
     parser.add_option({"-h", "--help", "Print this help message", false, ""});
     parser.add_option({"-c", "--check-utils-available", "Check required utils", false, ""});
+    parser.add_option({"-l", "--lexer", "Run lexer analyzer", false, ""});
 
     // Parse command line
     if (!parser.parse(argc, argv)) {
         for (const auto& error : parser.get_errors()) {
             LOG_ERROR("%s", error.c_str());
         }
+
         std::cerr << parser.generate_help() << "\n";
         return 1;
     }
@@ -203,6 +262,10 @@ auto main(int argc, char** argv) -> int {
     // Check required utilities
     if (!check_utils_available()) {
         return 1;
+    }
+
+    if (parser.has_option("-l")) {
+        run_lexer();
     }
 
     return 0;

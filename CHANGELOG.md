@@ -1,3 +1,9 @@
+commit 40e2622ab951c573be8d98a11ac6b55cbe3a1093
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Tue Aug 5 22:53:36 2025 +0700
+
+    change descriptions and doxyfile
+
 commit b8b19a87ac2b8686bc497d02f945343f04f93c52
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Tue Aug 5 17:31:19 2025 +0700
