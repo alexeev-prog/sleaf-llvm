@@ -38,6 +38,7 @@ namespace sleaf {
         BOOL,    ///< "bool" type
         STRING,    ///< "string" type
         CHAR,    ///< "char" type
+        VOID,    ///< "void" type
         IF,    ///< "if" keyword
         ELSE,    ///< "else" keyword
         WHILE,    ///< "while" keyword
@@ -89,6 +90,7 @@ namespace sleaf {
         SEMICOLON,    ///< ";"
         COLON,    ///< ":"
         DOT,    ///< "."
+        QUESTION,    ///< "?"
 
         // Special tokens
         END_OF_FILE,    ///< End of input
@@ -153,11 +155,11 @@ namespace sleaf {
         auto is_at_end() const -> bool;
 
       private:
-        const std::string m_source;    ///< Source code being tokenized
-        size_t m_start = 0;    ///< Start of current token
-        size_t m_current = 0;    ///< Current position in source
-        int m_line = 1;    ///< Current line number (1-based)
-        int m_column = 1;    ///< Current column number (1-based)
+        const std::string m_SOURCE;    ///< Source code being tokenized
+        size_t m_START = 0;    ///< Start of current token
+        size_t m_CURRENT = 0;    ///< Current position in source
+        int m_LINE = 1;    ///< Current line number (1-based)
+        int m_COLUMN = 1;    ///< Current column number (1-based)
 
         /**
          * @brief Advance to next character in source

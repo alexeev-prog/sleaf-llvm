@@ -24,6 +24,7 @@ namespace sleaf {
             {TokenType::BOOL, "BOOL"},
             {TokenType::STRING, "STRING"},
             {TokenType::CHAR, "CHAR"},
+            {TokenType::VOID, "VOID"},
             {TokenType::IF, "IF"},
             {TokenType::ELSE, "ELSE"},
             {TokenType::WHILE, "WHILE"},
@@ -69,6 +70,7 @@ namespace sleaf {
             {TokenType::SEMICOLON, "SEMICOLON"},
             {TokenType::COLON, "COLON"},
             {TokenType::DOT, "DOT"},
+            {TokenType::QUESTION, "QUESTION"},
             {TokenType::END_OF_FILE, "END_OF_FILE"},
             {TokenType::ERROR, "ERROR"}};
 
@@ -77,7 +79,7 @@ namespace sleaf {
     }
 
     Lexer::Lexer(std::string source)
-        : m_source(std::move(source)) {}
+        : m_SOURCE(std::move(source)) {}
 
     auto Lexer::scan_token() -> Token {
         skip_whitespace();
@@ -86,7 +88,7 @@ namespace sleaf {
             return make_token(TokenType::END_OF_FILE);
         }
 
-        m_start = m_current;
+        m_START = m_CURRENT;
         char c = advance();
 
         if (is_alpha(c)) {
@@ -117,6 +119,8 @@ namespace sleaf {
                 return make_token(TokenType::COLON);
             case '.':
                 return make_token(TokenType::DOT);
+            case '?':
+                return make_token(TokenType::QUESTION);
             case '+':
                 if (match('+')) {
                     return make_token(TokenType::PLUS_PLUS);
@@ -163,39 +167,39 @@ namespace sleaf {
     }
 
     auto Lexer::is_at_end() const -> bool {
-        return m_current >= m_source.length();
+        return m_CURRENT >= m_SOURCE.length();
     }
 
     auto Lexer::advance() -> char {
         if (is_at_end()) {
             return '\0';
         }
-        char c = m_source[m_current++];
+        char c = m_SOURCE[m_CURRENT++];
         if (c == '\n') {
-            m_line++;
-            m_column = 1;
+            m_LINE++;
+            m_COLUMN = 1;
         } else {
-            m_column++;
+            m_COLUMN++;
         }
         return c;
     }
 
     auto Lexer::peek() const -> char {
-        return is_at_end() ? '\0' : m_source[m_current];
+        return is_at_end() ? '\0' : m_SOURCE[m_CURRENT];
     }
 
     auto Lexer::peek_next() const -> char {
-        if (m_current + 1 >= m_source.length()) {
+        if (m_CURRENT + 1 >= m_SOURCE.length()) {
             return '\0';
         }
-        return m_source[m_current + 1];
+        return m_SOURCE[m_CURRENT + 1];
     }
 
     auto Lexer::match(char expected) -> bool {
         if (is_at_end()) {
             return false;
         }
-        if (m_source[m_current] != expected) {
+        if (m_SOURCE[m_CURRENT] != expected) {
             return false;
         }
 
@@ -204,12 +208,12 @@ namespace sleaf {
     }
 
     auto Lexer::make_token(TokenType type) const -> Token {
-        std::string lexeme = m_source.substr(m_start, m_current - m_start);
-        return Token(type, lexeme, m_line, m_column - static_cast<int>(lexeme.length()));
+        std::string lexeme = m_SOURCE.substr(m_START, m_CURRENT - m_START);
+        return {type, lexeme, m_LINE, m_COLUMN - static_cast<int>(lexeme.length())};
     }
 
     auto Lexer::error_token(const std::string& message) -> Token {
-        return Token(TokenType::ERROR, message, m_line, m_column);
+        return {TokenType::ERROR, message, m_LINE, m_COLUMN};
     }
 
     auto Lexer::skip_whitespace() -> void {
@@ -258,12 +262,12 @@ namespace sleaf {
             {"u8", TokenType::U8},         {"u16", TokenType::U16},       {"u32", TokenType::U32},
             {"u64", TokenType::U64},       {"f32", TokenType::F32},       {"f64", TokenType::F64},
             {"bool", TokenType::BOOL},     {"string", TokenType::STRING}, {"char", TokenType::CHAR},
-            {"true", TokenType::TRUE},     {"false", TokenType::FALSE},   {"if", TokenType::IF},
-            {"else", TokenType::ELSE},     {"while", TokenType::WHILE},   {"for", TokenType::FOR},
-            {"struct", TokenType::STRUCT}, {"import", TokenType::IMPORT}, {"const", TokenType::CONST},
-            {"var", TokenType::VAR}};
+            {"void", TokenType::VOID},     {"true", TokenType::TRUE},     {"false", TokenType::FALSE},
+            {"if", TokenType::IF},         {"else", TokenType::ELSE},     {"while", TokenType::WHILE},
+            {"for", TokenType::FOR},       {"struct", TokenType::STRUCT}, {"import", TokenType::IMPORT},
+            {"const", TokenType::CONST},   {"var", TokenType::VAR}};
 
-        std::string text = m_source.substr(m_start, m_current - m_start);
+        std::string text = m_SOURCE.substr(m_START, m_CURRENT - m_START);
         auto it = keywords.find(text);
         if (it != keywords.end()) {
             return make_token(it->second);
@@ -277,10 +281,10 @@ namespace sleaf {
         bool is_bin = false;
 
         // Check for hex or binary prefix
-        if (peek() == 'x' && (m_current - m_start == 1) && m_source[m_start] == '0') {
+        if (peek() == 'x' && (m_CURRENT - m_START == 1) && m_SOURCE[m_START] == '0') {
             is_hex = true;
             advance();    // Skip 'x'
-        } else if (peek() == 'b' && (m_current - m_start == 1) && m_source[m_start] == '0') {
+        } else if (peek() == 'b' && (m_CURRENT - m_START == 1) && m_SOURCE[m_START] == '0') {
             is_bin = true;
             advance();    // Skip 'b'
         }

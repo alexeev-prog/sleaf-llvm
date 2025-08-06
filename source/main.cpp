@@ -15,17 +15,16 @@
 #include "_default.hpp"
 #include "absl/strings/match.h"
 #include "input_parser.hpp"
-#include "lexer/lexer.hpp"
 #include "logger.hpp"
+#include "ast/ast.hpp"
+#include "lexer/lexer.hpp"
+#include "parser/parser.hpp"
 
 using namespace sleaf;
 
 namespace fs = std::filesystem;
 
 namespace {
-    /**
-     * @brief Check if util is available (cross-platform)
-     */
     auto is_util_available(const std::string& util) -> bool {
 #ifdef _WIN32
         std::string cmd = "where " + util + " >nul 2>nul";
@@ -35,9 +34,6 @@ namespace {
         return std::system(cmd.c_str()) == 0;
     }
 
-    /**
-     * @brief Safe command execution
-     */
     auto execute_command(const std::string& cmd, bool quiet = true) -> int {
         if (quiet) {
 #ifdef _WIN32
@@ -50,22 +46,12 @@ namespace {
         }
     }
 
-    /**
-     * @brief Generate safe quoted path
-     */
     auto safe_path(const std::string& path) -> std::string {
-        if (path.empty()) {
-            return "\"\"";
-        }
-        if (absl::StrContains(path, ' ')) {
-            return "\"" + path + "\"";
-        }
+        if (path.empty()) return "\"\"";
+        if (absl::StrContains(path, ' ')) return "\"" + path + "\"";
         return path;
     }
 
-    /**
-     * @brief Compile generated IR to binary
-     */
     auto compile_ir(const std::string& output_base) -> bool {
         const std::string LL_FILE = output_base + ".ll";
         const std::string OPT_LL_FILE = output_base + "-opt.ll";
@@ -77,7 +63,6 @@ namespace {
         }
 
         std::string opt_cmd = "opt " + safe_path(LL_FILE) + " -O3 -S -o " + safe_path(OPT_LL_FILE);
-
         LOG_INFO("Optimizing code...");
 
         if (execute_command(opt_cmd) != 0) {
@@ -93,7 +78,6 @@ namespace {
         }
 
         std::string clang_cmd = "clang++ -O3 " + safe_path(OPT_LL_FILE) + " -o " + safe_path(bin_file);
-
         LOG_INFO("Compiling optimized code...");
 
         if (execute_command(clang_cmd) != 0) {
@@ -111,12 +95,8 @@ namespace {
         return true;
     }
 
-    /**
-     * @brief Safe cleanup of temporary files
-     */
     void cleanup_temp_files(const std::string& output_base) {
-        auto safe_remove = [](const std::string& path)
-        {
+        auto safe_remove = [](const std::string& path) {
             try {
                 if (fs::exists(path)) {
                     fs::remove(path);
@@ -131,9 +111,6 @@ namespace {
         safe_remove(output_base + "-opt.ll");
     }
 
-    /**
-     * @brief Check if all required utils are available
-     */
     auto check_utils_available() -> bool {
         const std::vector<std::string> REQUIRED_PROGS = {"opt", "clang++"};
 
@@ -146,23 +123,14 @@ namespace {
         return true;
     }
 
-    /**
-     * @brief Check if output name is valid
-     */
     auto is_valid_output_name(const std::string& name) -> bool {
-        if (name.empty()) {
-            return false;
-        }
-
+        if (name.empty()) return false;
         const std::string FORBIDDEN_CHARS = "/\\:*?\"<>|";
-        return boost::algorithm::none_of(name, [&](char c) { return absl::StrContains(FORBIDDEN_CHARS, c); });
+        return boost::algorithm::none_of(name, [&](char c) {
+            return absl::StrContains(FORBIDDEN_CHARS, c);
+        });
     }
 
-    /**
-     * @brief Format token for human-readable output
-     * @param token Token to format
-     * @return Formatted string representation
-     */
     auto format_token(const Token& token) -> std::string {
         std::ostringstream stringstream;
         stringstream << "[" << std::setw(3) << token.line << ":" << std::setw(3) << token.column << "] "
@@ -170,82 +138,170 @@ namespace {
         return stringstream.str();
     }
 
-    /**
-     * @brief Main entry point for lexer demonstration
-     *
-     * Usage:
-     *   ./sleaf_lexer [filename]  - Read from file
-     *   ./sleaf_lexer             - Read from stdin
-     */
-    auto run_lexer() -> int {
-        std::string source;
-        const int TOKEN_LIMIT = 500;
+    auto read_source(const std::string& filename) -> std::string {
+        if (filename.empty()) {
+            std::cout << "Enter SLEAF code (Ctrl+D to finish):\n";
+            return std::string(std::istreambuf_iterator<char>(std::cin),
+                               std::istreambuf_iterator<char>());
+        }
 
-        std::cout << "Enter SLEAF code (Ctrl+D to finish):\n";
-        source = std::string(std::istreambuf_iterator<char>(std::cin), std::istreambuf_iterator<char>());
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            LOG_CRITICAL("Could not open file: %s", filename.c_str());
+            return "";
+        }
+        return std::string(std::istreambuf_iterator<char>(file),
+                           std::istreambuf_iterator<char>());
+    }
 
-        // Create and run lexer
+    auto run_lexer(const std::string& source) -> int {
+        if (source.empty()) {
+            LOG_ERROR("No source code provided");
+            return 1;
+        }
+
         Lexer lexer(source);
-
-        std::cout << "\nToken stream:\n";
-        std::cout << "----------------------------------------\n";
+        std::cout << "\nToken stream:\n----------------------------------------\n";
 
         int token_count = 0;
         while (true) {
             Token token = lexer.scan_token();
             std::cout << format_token(token) << "\n";
 
-            if (token.type == TokenType::END_OF_FILE) {
-                break;
-            }
+            if (token.type == TokenType::END_OF_FILE) break;
             if (token.type == TokenType::ERROR) {
                 std::cerr << "Lexical error: " << token.lexeme << "\n";
             }
 
-            if (++token_count > TOKEN_LIMIT) {
-                std::cerr << "Token limit exceeded (possible infinite loop)" << "\n";
+            if (++token_count > 500) {
+                std::cerr << "Token limit exceeded\n";
                 break;
             }
         }
-
         return 0;
     }
-}    // namespace
 
-/**
- * @brief Entry point
- */
+    class ASTPrinter : public ASTVisitor {
+        int indent = 0;
+
+        void print_indent() {
+            for (int i = 0; i < indent; ++i) std::cout << "  ";
+        }
+
+    public:
+        void visit(BlockStmt& node) override {
+            print_indent();
+            std::cout << "Block:\n";
+            indent++;
+            for (auto& stmt : node.statements) stmt->accept(*this);
+            indent--;
+        }
+
+        void visit(FunctionDecl& node) override {
+            print_indent();
+            std::cout << "Function: " << node.name << "\n";
+            indent++;
+            node.body->accept(*this);
+            indent--;
+        }
+
+        void visit(IfStmt& node) override {
+            print_indent();
+            std::cout << "If:\n";
+            indent++;
+            node.condition->accept(*this);
+            node.then_branch->accept(*this);
+            if (node.else_branch) node.else_branch->accept(*this);
+            indent--;
+        }
+
+        void visit(BinaryExpr& node) override {
+            print_indent();
+            std::cout << "Binary: " << static_cast<int>(node.op) << "\n";
+            indent++;
+            node.left->accept(*this);
+            node.right->accept(*this);
+            indent--;
+        }
+
+        void visit(Literal& node) override {
+            print_indent();
+            std::cout << "Literal: " << node.value << "\n";
+        }
+
+        void visit(Identifier& node) override {
+            print_indent();
+            std::cout << "Identifier: " << node.name << "\n";
+        }
+
+        void visit(ExpressionStmt& node) override {
+            print_indent();
+            std::cout << "ExpressionStmt:\n";
+            indent++;
+            node.expr->accept(*this);
+            indent--;
+        }
+
+        void visit(WhileStmt&) override {}
+        void visit(ForStmt&) override {}
+        void visit(ReturnStmt&) override {}
+        void visit(VarDecl&) override {}
+        void visit(Parameter&) override {}
+        void visit(AssignExpr&) override {}
+        void visit(UnaryExpr&) override {}
+        void visit(CallExpr&) override {}
+        void visit(GroupingExpr&) override {}
+    };
+
+    auto run_parser(const std::string& source) -> int {
+        if (source.empty()) {
+            LOG_ERROR("No source code provided");
+            return 1;
+        }
+
+        Lexer lexer(source);
+        Parser parser(lexer);
+        auto statements = parser.parse();
+
+        if (parser.had_error()) {
+            LOG_ERROR("Parsing failed with %d errors", parser.had_error());
+            return 1;
+        }
+
+        ASTPrinter printer;
+        for (auto& stmt : statements) {
+            stmt->accept(printer);
+        }
+        return 0;
+    }
+
+    auto run_ast(const std::string& source) -> int {
+        return run_parser(source);
+    }
+}
+
 auto main(int argc, char** argv) -> int {
-    bool compile_raw_object_file = false;
-
-    // Initialize parser with program info
     InputParser parser(fs::path(argv[0]).filename().string(),
-                       "SLeaf-LLVM - Compiler for the SLeaf programming language");
+                   "SLeaf-LLVM - Compiler for SLeaf language");
 
-    // Register command line options
     parser.add_option({"-v", "--version", "Get version", false, ""});
-    parser.add_option({"-h", "--help", "Print this help message", false, ""});
-    parser.add_option({"-c", "--check-utils-available", "Check required utils", false, ""});
+    parser.add_option({"-h", "--help", "Print help", false, ""});
+    parser.add_option({"-c", "--check-utils", "Check required utils", false, ""});
     parser.add_option({"-l", "--lexer", "Run lexer analyzer", false, ""});
+    parser.add_option({"-p", "--parser", "Run parser", false, ""});
+    parser.add_option({"-a", "--ast", "Run AST printer", false, ""});
+    parser.add_option({"-o", "--output", "Output file", true, "file"});
 
-    // Parse command line
     if (!parser.parse(argc, argv)) {
         for (const auto& error : parser.get_errors()) {
             LOG_ERROR("%s", error.c_str());
         }
-
         std::cerr << parser.generate_help() << "\n";
         return 1;
     }
 
     if (parser.has_option("-c")) {
-        if (!check_utils_available()) {
-            LOG_ERROR("Utils not available. You installed clang++ and opt?");
-            return 1;
-        }
-
-        LOG_INFO("All utils available!");
-        return 0;
+        return check_utils_available() ? 0 : 1;
     }
 
     if (parser.has_option("-v")) {
@@ -253,20 +309,42 @@ auto main(int argc, char** argv) -> int {
         return 0;
     }
 
-    // Handle help option
     if (parser.has_option("-h") || parser.has_option("--help")) {
         std::cout << parser.generate_help() << "\n";
         return 0;
     }
 
-    // Check required utilities
-    if (!check_utils_available()) {
+    if (!check_utils_available()) return 1;
+
+    std::string output_file;
+    if (auto output = parser.get_argument("-o")) {
+        output_file = *output;
+    }
+
+    std::string input_file;
+    auto positional = parser.get_positional_args();
+    if (!positional.empty()) {
+        input_file = positional[0];
+    }
+
+    std::string source = read_source(input_file);
+    if (source.empty() && input_file.empty()) {
+        LOG_ERROR("No input source provided");
         return 1;
     }
 
     if (parser.has_option("-l")) {
-        run_lexer();
+        return run_lexer(source);
     }
 
+    if (parser.has_option("-p")) {
+        return run_parser(source);
+    }
+
+    if (parser.has_option("-a")) {
+        return run_ast(source);
+    }
+
+    LOG_INFO("Compilation pipeline not fully implemented yet");
     return 0;
 }

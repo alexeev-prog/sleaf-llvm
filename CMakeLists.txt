@@ -40,8 +40,10 @@ add_library(
     source/logger.cpp
     source/tracelogger.cpp
 
-    # Lexer
+    # Lexer-parser-AST
     source/lexer/lexer.cpp
+    source/parser/parser.cpp
+    source/ast/ast.cpp
 )
 
 target_include_directories(
