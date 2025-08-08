@@ -1,3 +1,9 @@
+commit fbafbffbe8eebae92e1b1ae8ad90b53a1780b05c
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Sat Aug 9 00:02:35 2025 +0700
+
+    small updates in ast
+
 commit e7a34f1b7382083c80d412f9526c1f4ff5fbc4f9
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Fri Aug 8 12:14:18 2025 +0700

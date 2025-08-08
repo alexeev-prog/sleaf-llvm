@@ -116,6 +116,9 @@ You also can read [Hacking](./HACKING.md)
  - [x] Parser
  - [x] AST
  - [ ] Codegen
+   - [ ] Basic Codegen
+   - [ ] Variables, const, create and set, types.
+   - [ ] Export printf function
  - [ ] IR>bin
  - [ ] VSCode Extension
  - [ ] Standard library
