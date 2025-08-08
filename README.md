@@ -110,25 +110,16 @@ You also can read [Hacking](./HACKING.md)
 | **LLVM19 Backend** | Direct LLVM IR generation via C++ API | Near-native execution speed, advanced optimizations |
 | **Cross-Platform** | Single IR → Windows/Linux/macOS binaries | Consistent behavior across platforms |
 
+## Plans
 
-## ⚖️ License
-```text
-System programming language made with C++ &amp; LLVM
-Copyright (C) 2025 Alexeev Bronislav
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
-```
+ - [x] Lexer
+ - [x] Parser
+ - [x] AST
+ - [ ] Codegen
+ - [ ] IR>bin
+ - [ ] VSCode Extension
+ - [ ] Standard library
+ - [ ] Package manager
 
 ## SLEAF Manifesto
 *"We reject the false choice between performance and expressiveness.
@@ -160,6 +151,25 @@ This project is licensed under **GNU GPL 3.0 License** - see [LICENSE](https://g
 [Explore Documentation](https://alexeev-prog.github.io/sleaf-llvm) |
 [Report Issue](https://github.com/alexeev-prog/sleaf-llvm/issues) |
 [View Examples](./examples)
+
+### ⚖️ License
+```text
+System programming language made with C++ &amp; LLVM
+Copyright (C) 2025 Alexeev Bronislav
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+```
 
 ---
 
