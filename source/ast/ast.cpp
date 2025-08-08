@@ -105,7 +105,7 @@ namespace sleaf {
         visitor.visit(*this);
     }
 
-    TokenType BinaryExpr::get_type() const {
+    auto BinaryExpr::get_type() const -> TokenType {
         // Type propagation rules
         if (left->get_type() == TokenType::F32 || right->get_type() == TokenType::F32
             || left->get_type() == TokenType::F64 || right->get_type() == TokenType::F64)
