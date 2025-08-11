@@ -1,3 +1,9 @@
+commit 4dec2f677c830ee665d12de11f8961f64d835055
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Tue Aug 12 02:34:54 2025 +0700
+
+    try fix codegen and parser
+
 commit cc4db7e633bf8536f4dbc2b09fa64c2c6fdd2cd5
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Sat Aug 9 03:49:24 2025 +0700
