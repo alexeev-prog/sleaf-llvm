@@ -32,6 +32,10 @@ find_package(libxml2 REQUIRED)
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
 
+include_directories(${LLVM_INCLUDE_DIRS})
+add_definitions(${LLVM_DEFINITIONS})
+llvm_map_components_to_libnames(llvm_libs support core irreader TargetParser Target)
+
 # ---- Declare library ----
 
 add_library(
@@ -44,6 +48,9 @@ add_library(
     source/lexer/lexer.cpp
     source/parser/parser.cpp
     source/ast/ast.cpp
+
+    # Codegen
+    source/codegen/codegen.cpp
 )
 
 target_include_directories(
@@ -64,6 +71,19 @@ set_property(TARGET sleaf-llvm_exe PROPERTY OUTPUT_NAME sleaf-llvm)
 target_compile_features(sleaf-llvm_exe PRIVATE cxx_std_20)
 
 target_link_libraries(sleaf-llvm_exe PRIVATE sleaf-llvm_lib)
+
+target_link_libraries(sleaf-llvm_lib ${llvm_libs} lldELF)
+target_link_libraries(sleaf-llvm_lib
+    LLVMPasses
+    LLVMX86CodeGen
+    LLVMX86Desc
+    LLVMX86Info
+    LLVMOrcJIT
+    LLVMExecutionEngine
+    LLVMRuntimeDyld
+    LLVMMCJIT
+    LLVMTarget
+)
 
 # ---- Install rules ----
 

@@ -1,3 +1,9 @@
+commit cc4db7e633bf8536f4dbc2b09fa64c2c6fdd2cd5
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Sat Aug 9 03:49:24 2025 +0700
+
+    add codegen empty files, update readme
+
 commit fbafbffbe8eebae92e1b1ae8ad90b53a1780b05c
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Sat Aug 9 00:02:35 2025 +0700
