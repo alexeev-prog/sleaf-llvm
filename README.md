@@ -115,11 +115,17 @@ You also can read [Hacking](./HACKING.md)
  - [x] Lexer
  - [x] Parser
  - [x] AST
- - [ ] Codegen
-   - [ ] Basic Codegen
-   - [ ] Variables, const, create and set, types.
+ - [x] Codegen
+   - [x] Basic Codegen
+   - [x] Variables, const, create and set, types.
    - [ ] Export printf function
- - [ ] IR>bin
+   - [ ] `if-then-else` branches
+   - [ ] `while` and `loop` cycles
+   - [ ] `for` cycles
+   - [ ] `break`, `continue` keywords
+   - [ ] `if-elif-else` conditions
+   - [ ] `struct` support
+   - [ ] `import` and modules
  - [ ] VSCode Extension
  - [ ] Standard library
  - [ ] Package manager

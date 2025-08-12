@@ -1,3 +1,9 @@
+commit fcfe43fb7b0a9420856a8115c2f6df6ebe14839c
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Tue Aug 12 02:42:45 2025 +0700
+
+    todo: rewrite parser and ast
+
 commit 4dec2f677c830ee665d12de11f8961f64d835055
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Tue Aug 12 02:34:54 2025 +0700

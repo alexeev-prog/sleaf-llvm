@@ -340,20 +340,28 @@ namespace sleaf {
     }
 
     auto Lexer::scan_char() -> Token {
-        if (peek() == '\\') {
-            advance();    // Skip escape character
-        }
+        advance();
 
         if (is_at_end()) {
             return error_token("Unterminated character");
         }
-        advance();
+
+        char c = peek();
+        if (c == '\\') {
+            advance();
+            if (is_at_end()) {
+                return error_token("Unterminated character after escape");
+            }
+            advance();
+        } else {
+            advance();
+        }
 
         if (peek() != '\'') {
             return error_token("Character too long");
         }
 
-        advance();    // Skip closing quote
+        advance();
         return make_token(TokenType::CHAR_LITERAL);
     }
 
