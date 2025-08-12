@@ -121,11 +121,14 @@ namespace sleaf {
       public:
         explicit Parser(Lexer& lexer);
         std::unique_ptr<Program> parse();
+        bool has_errors() const;
+        const std::vector<std::string>& get_errors() const;
 
       private:
         Lexer& lexer;
         Token current;
         Token previous;
+        std::vector<std::string> errors;
 
         void advance();
         void consume(TokenType type, const std::string& message);

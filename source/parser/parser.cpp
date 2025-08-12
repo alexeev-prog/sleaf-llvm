@@ -8,25 +8,22 @@ namespace sleaf {
     Parser::Parser(Lexer& lexer)
         : lexer(lexer)
         , current(TokenType::END_OF_FILE, "", 0, 0)
-        , previous(TokenType::END_OF_FILE, "", 0, 0) {
+        , previous(TokenType::END_OF_FILE, "", 0, 0)
+        , errors() {
         advance();
         advance();
     }
 
+    bool Parser::has_errors() const {
+        return !errors.empty();
+    }
+
+    const std::vector<std::string>& Parser::get_errors() const {
+        return errors;
+    }
+
     std::unique_ptr<Program> Parser::parse() {
-        auto program = std::make_unique<Program>();
-
-        while (!is_at_end()) {
-            try {
-                program->declarations.push_back(parse_declaration());
-            } catch (const std::runtime_error& e) {
-                while (!is_at_end() && !check(TokenType::FUNC) && !check(TokenType::STRUCT)) {
-                    advance();
-                }
-            }
-        }
-
-        return program;
+        return parse_program();
     }
 
     void Parser::advance() {
@@ -35,6 +32,7 @@ namespace sleaf {
         if (!lexer.is_at_end()) {
             current = lexer.scan_token();
             while (current.type == TokenType::ERROR && !lexer.is_at_end()) {
+                errors.push_back("Lexer error: " + current.lexeme);
                 current = lexer.scan_token();
             }
         }
@@ -45,7 +43,10 @@ namespace sleaf {
             advance();
             return;
         }
-        throw std::runtime_error(message);
+        std::string error_msg = "Error at " + std::to_string(current.line) + ":"
+            + std::to_string(current.column) + " - " + message;
+        errors.push_back(error_msg);
+        throw std::runtime_error(error_msg);
     }
 
     bool Parser::match(TokenType type) {
@@ -64,6 +65,22 @@ namespace sleaf {
         return check(TokenType::END_OF_FILE);
     }
 
+    std::unique_ptr<Program> Parser::parse_program() {
+        auto program = std::make_unique<Program>();
+
+        while (!is_at_end()) {
+            try {
+                program->declarations.push_back(parse_declaration());
+            } catch (const std::runtime_error& e) {
+                while (!is_at_end() && !check(TokenType::FUNC) && !check(TokenType::STRUCT)) {
+                    advance();
+                }
+            }
+        }
+
+        return program;
+    }
+
     std::unique_ptr<Declaration> Parser::parse_declaration() {
         if (match(TokenType::FUNC)) {
             return parse_function();
@@ -71,7 +88,10 @@ namespace sleaf {
         if (match(TokenType::STRUCT)) {
             return parse_struct();
         }
-        throw std::runtime_error("Unexpected token at global scope");
+        std::string error_msg = "Error at " + std::to_string(current.line) + ":"
+            + std::to_string(current.column) + " - Unexpected token at global scope";
+        errors.push_back(error_msg);
+        throw std::runtime_error(error_msg);
     }
 
     std::unique_ptr<FunctionDecl> Parser::parse_function() {
@@ -163,7 +183,10 @@ namespace sleaf {
             type->base = TypeSpecifier::CUSTOM;
             type->custom_name = previous.lexeme;
         } else {
-            throw std::runtime_error("Expect type specification");
+            std::string error_msg = "Error at " + std::to_string(current.line) + ":"
+                + std::to_string(current.column) + " - Expect type specification";
+            errors.push_back(error_msg);
+            throw std::runtime_error(error_msg);
         }
 
         while (match(TokenType::AMPERSAND)) {
@@ -222,15 +245,16 @@ namespace sleaf {
         auto expr = parse_expression();
         consume(TokenType::SEMICOLON, "Expect ';' after expression");
         // return expr;
+        return nullptr;
     }
 
     std::unique_ptr<BlockStmt> Parser::parse_block() {
         auto block = std::make_unique<BlockStmt>();
 
-        while (!check(TokenType::RIGHT_BRACE)) {
+        consume(TokenType::LEFT_BRACE, "Expect '{' before block");
+        while (!check(TokenType::RIGHT_BRACE) && !is_at_end()) {
             block->statements.push_back(parse_statement());
         }
-
         consume(TokenType::RIGHT_BRACE, "Expect '}' after block");
         return block;
     }
@@ -400,7 +424,10 @@ namespace sleaf {
             return expr;
         }
 
-        throw std::runtime_error("Expect expression");
+        std::string error_msg = "Error at " + std::to_string(current.line) + ":"
+            + std::to_string(current.column) + " - Expect expression";
+        errors.push_back(error_msg);
+        throw std::runtime_error(error_msg);
     }
 
     std::vector<std::unique_ptr<Expr>> Parser::parse_arguments() {

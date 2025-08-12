@@ -17,6 +17,7 @@
 #include "input_parser.hpp"
 #include "lexer/lexer.hpp"
 #include "logger.hpp"
+#include "parser/parser.hpp"
 
 namespace sleaf {
     // Forward declarations to resolve circular dependencies
@@ -194,6 +195,33 @@ namespace {
         }
         return 0;
     }
+
+    auto run_parser(const std::string& source) -> int {
+        if (source.empty()) {
+            LOG_ERROR("No source code provided");
+            return 1;
+        }
+
+        sleaf::Lexer lexer(source);
+        sleaf::Parser parser(lexer);
+        try {
+            auto program = parser.parse();
+            if (parser.has_errors()) {
+                LOG_ERROR("Parsing completed with %d errors:", parser.get_errors().size());
+                for (const auto& err : parser.get_errors()) {
+                    std::cerr << err << std::endl;
+                }
+                return 1;
+            } else {
+                LOG_INFO("Parsed successfully. Found %d top-level declarations.",
+                         program->declarations.size());
+                return 0;
+            }
+        } catch (const std::exception& e) {
+            LOG_ERROR("Parser error: %s", e.what());
+            return 1;
+        }
+    }
 }    // namespace
 
 auto main(int argc, char** argv) -> int {
@@ -254,6 +282,10 @@ auto main(int argc, char** argv) -> int {
 
     if (input_parser.has_option("-l")) {
         return run_lexer(source);
+    }
+
+    if (input_parser.has_option("-p")) {
+        return run_parser(source);
     }
 
     return 0;

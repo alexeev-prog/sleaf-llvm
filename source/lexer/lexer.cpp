@@ -130,7 +130,10 @@ namespace sleaf {
                 }
                 return make_token(TokenType::PLUS);
             case '-':
-                return match('>') ? make_token(TokenType::ARROW) : make_token(TokenType::MINUS);
+                if (match('>')) {
+                    return make_token(TokenType::ARROW);
+                }
+                return make_token(TokenType::MINUS);
             case '*':
                 return make_token(TokenType::STAR);
             case '/':
@@ -146,17 +149,35 @@ namespace sleaf {
             case '%':
                 return make_token(TokenType::PERCENT);
             case '=':
-                return match('=') ? make_token(TokenType::EQUAL_EQUAL) : make_token(TokenType::EQUAL);
+                if (match('=')) {
+                    return make_token(TokenType::EQUAL_EQUAL);
+                }
+                return make_token(TokenType::EQUAL);
             case '!':
-                return match('=') ? make_token(TokenType::BANG_EQUAL) : make_token(TokenType::BANG);
+                if (match('=')) {
+                    return make_token(TokenType::BANG_EQUAL);
+                }
+                return make_token(TokenType::BANG);
             case '<':
-                return match('=') ? make_token(TokenType::LESS_EQUAL) : make_token(TokenType::LESS);
+                if (match('=')) {
+                    return make_token(TokenType::LESS_EQUAL);
+                }
+                return make_token(TokenType::LESS);
             case '>':
-                return match('=') ? make_token(TokenType::GREATER_EQUAL) : make_token(TokenType::GREATER);
+                if (match('=')) {
+                    return make_token(TokenType::GREATER_EQUAL);
+                }
+                return make_token(TokenType::GREATER);
             case '&':
-                return match('&') ? make_token(TokenType::AMPERSAND_AMP) : make_token(TokenType::AMPERSAND);
+                if (match('&')) {
+                    return make_token(TokenType::AMPERSAND_AMP);
+                }
+                return make_token(TokenType::AMPERSAND);
             case '|':
-                return match('|') ? make_token(TokenType::PIPE_PIPE) : make_token(TokenType::PIPE);
+                if (match('|')) {
+                    return make_token(TokenType::PIPE_PIPE);
+                }
+                return make_token(TokenType::PIPE);
             case '"':
                 return scan_string();
             case '\'':
@@ -385,5 +406,4 @@ namespace sleaf {
     auto Lexer::is_alpha_numeric(char c) const -> bool {
         return is_alpha(c) || is_digit(c);
     }
-
 }    // namespace sleaf

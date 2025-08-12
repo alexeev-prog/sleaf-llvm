@@ -1,3 +1,9 @@
+commit f8fe65b62bfb61b3ce30f9672051ba4514e8a877
+Author: Alexeev Bronislav <alexeev.dev@mail.ru>
+Date:   Tue Aug 12 16:40:07 2025 +0700
+
+    fix lexer and parser
+
 commit fcfe43fb7b0a9420856a8115c2f6df6ebe14839c
 Author: Alexeev Bronislav <alexeev.dev@mail.ru>
 Date:   Tue Aug 12 02:42:45 2025 +0700

@@ -65,7 +65,7 @@ void Logger::print_log(Level level, const std::string& message) {
     }
 
     std::fprintf(stream,
-                 "%s[MORNINGLLVM :: %s%s%-8s%s]%s %s\n",
+                 "%s[SLEAFLLVM :: %s%s%-8s%s]%s %s\n",
                  BOLD,
                  BOLD,
                  color,
