@@ -162,4 +162,8 @@ namespace sleaf {
         std::vector<std::unique_ptr<Expr>> parse_arguments();
     };
 
+    struct ExprStmt : Stmt {
+        std::unique_ptr<Expr> expr;
+    };
+
 }    // namespace sleaf

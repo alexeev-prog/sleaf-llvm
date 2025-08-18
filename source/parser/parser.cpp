@@ -244,8 +244,9 @@ namespace sleaf {
 
         auto expr = parse_expression();
         consume(TokenType::SEMICOLON, "Expect ';' after expression");
-        // return expr;
-        return nullptr;
+        auto expr_stmt = std::make_unique<ExprStmt>();
+        expr_stmt->expr = std::move(expr);
+        return expr_stmt;
     }
 
     std::unique_ptr<BlockStmt> Parser::parse_block() {
